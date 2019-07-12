@@ -65,7 +65,7 @@
             <property name="can_focus">False</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkEntry">
+              <object class="GtkEntry" id="new_pokemon_name_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="placeholder_text" translatable="yes">name</property>
@@ -79,7 +79,7 @@
             </child>
             <child>
               <object class="GtkButton" id="create_button">
-                <property name="label" translatable="yes">create</property>
+                <property name="label" translatable="yes">Create</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -91,6 +91,19 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="new_cancel_button">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -98,7 +111,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="new_pokemon_hp_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="buffer">entrybuffer1</property>
@@ -114,7 +127,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="new_pokemon_att_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">3</property>
@@ -129,7 +142,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="new_pokemon_defense_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">3</property>
@@ -144,7 +157,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="new_pokemon_spec_att_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">3</property>
@@ -159,7 +172,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="new_pokemon_spec_def_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">3</property>
@@ -174,7 +187,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="new_pokemon_speed_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="max_length">3</property>
@@ -189,7 +202,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="natures2">
+          <object class="GtkComboBoxText" id="new_natures">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="active">0</property>
