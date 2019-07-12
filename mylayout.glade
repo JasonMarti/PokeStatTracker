@@ -47,9 +47,17 @@
     <property name="step_increment">0.25</property>
   </object>
   <object class="GtkEntryBuffer" id="entrybuffer1"/>
-  <object class="GtkWindow" id="new_pokemon">
+  <object class="GtkAdjustment" id="hp_adjustment">
+    <property name="upper">255</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="hp_stat_adjustment">
+    <property name="upper">1000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkWindow" id="new_move">
     <property name="can_focus">False</property>
-    <property name="window_position">center</property>
     <child>
       <placeholder/>
     </child>
@@ -57,8 +65,97 @@
       <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="row_homogeneous">True</property>
         <property name="column_homogeneous">True</property>
+        <child>
+          <object class="GtkEntry" id="new_move_name_entry">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="placeholder_text" translatable="yes">Name</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="new_move_power_entry">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="placeholder_text" translatable="yes">Power</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="new_move_STAB_button">
+            <property name="label" translatable="yes">Is STAB</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBoxText" id="new_move_type_combo">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="active">0</property>
+            <items>
+              <item id="0" translatable="yes">Physical</item>
+              <item id="1" translatable="yes">Special</item>
+            </items>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="new_move_ok_button">
+            <property name="label">gtk-ok</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_stock">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="new_move_no_button">
+            <property name="label">gtk-no</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_stock">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="new_pokemon">
+    <property name="can_focus">False</property>
+    <property name="window_position">center</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
@@ -68,7 +165,7 @@
               <object class="GtkEntry" id="new_pokemon_name_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="placeholder_text" translatable="yes">name</property>
+                <property name="placeholder_text" translatable="yes">Name</property>
                 <property name="input_purpose">alpha</property>
               </object>
               <packing>
@@ -78,12 +175,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="create_button">
-                <property name="label" translatable="yes">Create</property>
+              <object class="GtkEntry" id="new_pokemon_level_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="image_position">bottom</property>
+                <property name="max_length">3</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="placeholder_text" translatable="yes">Level</property>
+                <property name="input_purpose">digits</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -92,11 +191,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="new_cancel_button">
-                <property name="label" translatable="yes">Cancel</property>
+              <object class="GtkButton" id="new_pokemon_ok_button">
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="image_position">bottom</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -104,101 +205,129 @@
                 <property name="position">2</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="new_pokemon_no_button">
+                <property name="label">gtk-no</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
           </object>
           <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="new_pokemon_hp_entry">
+          <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="buffer">entrybuffer1</property>
-            <property name="max_length">3</property>
-            <property name="width_chars">3</property>
-            <property name="max_width_chars">3</property>
-            <property name="placeholder_text" translatable="yes">Hp</property>
-            <property name="input_purpose">number</property>
+            <property name="can_focus">False</property>
+            <property name="row_homogeneous">True</property>
+            <property name="column_homogeneous">True</property>
+            <child>
+              <object class="GtkEntry" id="new_pokemon_hp_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="buffer">entrybuffer1</property>
+                <property name="max_length">3</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="placeholder_text" translatable="yes">Hp</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="new_pokemon_spec_att_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">3</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="placeholder_text" translatable="yes">Special Attack</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="new_pokemon_att_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">3</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="placeholder_text" translatable="yes">Attack</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="new_pokemon_spec_def_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">3</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="placeholder_text" translatable="yes">Special Defense</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="new_pokemon_defense_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">3</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="placeholder_text" translatable="yes">Defense</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="new_pokemon_speed_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">3</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="placeholder_text" translatable="yes">Speed</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="new_pokemon_att_entry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="max_length">3</property>
-            <property name="width_chars">3</property>
-            <property name="max_width_chars">3</property>
-            <property name="placeholder_text" translatable="yes">Attack</property>
-            <property name="input_purpose">number</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="new_pokemon_defense_entry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="max_length">3</property>
-            <property name="width_chars">3</property>
-            <property name="max_width_chars">3</property>
-            <property name="placeholder_text" translatable="yes">Defense</property>
-            <property name="input_purpose">number</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="new_pokemon_spec_att_entry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="max_length">3</property>
-            <property name="width_chars">3</property>
-            <property name="max_width_chars">3</property>
-            <property name="placeholder_text" translatable="yes">Special Attack</property>
-            <property name="input_purpose">number</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">4</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="new_pokemon_spec_def_entry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="max_length">3</property>
-            <property name="width_chars">3</property>
-            <property name="max_width_chars">3</property>
-            <property name="placeholder_text" translatable="yes">Special Defense</property>
-            <property name="input_purpose">number</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">5</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="new_pokemon_speed_entry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="max_length">3</property>
-            <property name="width_chars">3</property>
-            <property name="max_width_chars">3</property>
-            <property name="placeholder_text" translatable="yes">Speed</property>
-            <property name="input_purpose">number</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">6</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -235,81 +364,9 @@
             </items>
           </object>
           <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">7</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkAdjustment" id="hp_adjustment">
-    <property name="upper">255</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="hp_stat_adjustment">
-    <property name="upper">1000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkWindow" id="new_move">
-    <property name="can_focus">False</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkGrid">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="row_homogeneous">True</property>
-        <property name="column_homogeneous">True</property>
-        <child>
-          <object class="GtkEntry" id="new_move_name_entry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="placeholder_text" translatable="yes">Name</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="new_move_power_entry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="placeholder_text" translatable="yes">Power</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkCheckButton" id="new_move_STAB_button">
-            <property name="label" translatable="yes">Is STAB</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="draw_indicator">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkComboBoxText" id="new_move_type_combo">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="active">0</property>
-            <items>
-              <item id="0" translatable="yes">Physical</item>
-              <item id="1" translatable="yes">Special</item>
-            </items>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">3</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>
@@ -422,6 +479,43 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkFileChooserButton" id="save_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="action">save</property>
+                    <property name="title" translatable="yes">Save</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFileChooserButton" id="load_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="title" translatable="yes">load</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
               </packing>
             </child>
           </object>
