@@ -4,8 +4,21 @@
 
 using namespace std;
 
-Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_def, Stat speed)
+Pokemon::Pokemon()
 {
+    this->name = "";
+    initNatures("adamant", this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    init_stat_from_base(this->hp, 0, 1);
+    init_stat_from_base(this->att, 0, 1);
+    init_stat_from_base(this->def, 0, 1);
+    init_stat_from_base(this->spec_attack, 0, 1);
+    init_stat_from_base(this->spec_def, 0, 1);
+    init_stat_from_base(this->speed, 0, 1);
+}
+
+Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_def, Stat speed, string nature)
+{
+    initNatures(nature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
     this->name = name;
     this->hp = hp;
     this->att = att;
@@ -14,138 +27,142 @@ Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Sta
     this->spec_def = spec_def;
     this->speed = speed;
 }
+
 //assumsIVs are 0
 Pokemon::Pokemon(string name, int hp, int att, int def, int satt, int sdef, int speed, string nature, int level)
 {
-    this->hp = init_stat_from_base(hp, level);
-    this->att = init_stat_from_base(att, level);
-    this->def = init_stat_from_base(def, level);
-    this->spec_attack = init_stat_from_base(satt, level);
-    this->spec_def = init_stat_from_base(sdef, level);
-    this->speed = init_stat_from_base(speed, level);
-
-    this->hp.nature = 1.0; //not necessary but for safety
-    this->att.nature = 1.0;
-    this->def.nature = 1.0;
-    this->spec_attack.nature = 1.0;
-    this->spec_def.nature = 1.0;
-    this->speed.nature = 1.0;
+    initNatures(nature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    init_stat_from_base(this->hp, hp, level);
+    init_stat_from_base(this->att, att, level);
+    init_stat_from_base(this->def, def, level);
+    init_stat_from_base(this->spec_attack, satt, level);
+    init_stat_from_base(this->spec_def, sdef, level);
+    init_stat_from_base(this->speed, speed, level);
 
     this->name = name;
-    if (nature == "adamant")
-    {
-        this->att = setNatureStat(this->att, true);
-        this->spec_attack = setNatureStat(this->spec_attack, false);
-        //att spec att
-    }
-    else if (nature == "bold")
-    {
-        this->def = setNatureStat(this->def, true);
-        this->att = setNatureStat(this->att, false);
-        //def att
-    }
-    else if (nature == "Brave")
-    {
-        //att speed
-        this->att = setNatureStat(this->att, true);
-        this->speed = setNatureStat(this->speed, false);
-    }
-    else if (nature == "calm")
-    {
-        this->spec_def = setNatureStat(this->spec_def, true);
-        this->att = setNatureStat(this->att, false);
-    }
-    else if (nature == "careful")
-    {
-        this->spec_def = setNatureStat(this->spec_def, true);
-        this->spec_attack = setNatureStat(this->spec_attack, false);
-    }
-    else if (nature == "gentle")
-    {
-        this->spec_def = setNatureStat(this->spec_def, true);
-        this->def = setNatureStat(this->def, false);
-    }
-    else if (nature == "hasty")
-    {
-        this->speed = setNatureStat(this->speed, true);
-        this->def = setNatureStat(this->def, false);
-    }
-    else if (nature == "impish")
-    {
-        this->def = setNatureStat(this->def, true);
-        this->spec_attack = setNatureStat(this->spec_attack, false);
-        }
-    else if (nature == "jolly")
-    {
-        this->speed = setNatureStat(this->speed, true);
-        this->spec_attack = setNatureStat(this->spec_attack, false);
-    }
-    else if (nature == "lax")
-    {
-
-        this->def = setNatureStat(this->def, true);
-        this->spec_def = setNatureStat(this->spec_def, false);
-    }
-    else if (nature == "lonely")
-    {
-        this->att = setNatureStat(this->att, true);
-        this->def = setNatureStat(this->def, false);
-    }
-    else if (nature == "mild")
-    {
-        this->spec_attack = setNatureStat(this->spec_attack, true);
-        this->def = setNatureStat(this->def, false);
-    }
-    else if (nature == "modest")
-    {
-        this->spec_attack = setNatureStat(this->spec_attack, true);
-        this->att = setNatureStat(this->att, false);
-    }
-    else if (nature == "naive")
-    {
-        this->speed = setNatureStat(this->speed, true);
-        this->spec_def = setNatureStat(this->spec_def, false);
-    }
-    else if (nature == "naughty")
-    {
-        this->att = setNatureStat(this->att, true);
-        this->spec_def = setNatureStat(this->spec_def, false);
-    }
-    else if (nature == "quiet")
-    {
-        this->spec_attack = setNatureStat(this->spec_attack, true);
-        this->speed = setNatureStat(this->speed, false);
-    }
-    else if (nature == "rash")
-    {
-        this->spec_attack = setNatureStat(this->spec_attack, true);
-        this->spec_def = setNatureStat(this->spec_def, false);
-    }
-    else if (nature == "relaxed")
-    {
-        this->def = setNatureStat(this->def, true);
-        this->speed = setNatureStat(this->speed, false);
-    }
-    else if (nature == "sassy")
-    {
-        this->spec_def = setNatureStat(this->spec_def, true);
-        this->speed = setNatureStat(this->speed, false);
-    }
-    else if (nature == "timid")
-    {
-        this->speed = setNatureStat(this->speed, true);
-        this->att = setNatureStat(this->att, false);
-    }
 }
-Stat Pokemon::init_stat_from_base(int base, int level)
+void Pokemon::init_stat_from_base(Stat &stat, int base, int level)
 {
-    Stat stat;
     stat.base = base;
     stat.bottomIV = 0;
     stat.EV = 0;
     stat.topIV = 0;
     stat.current = calc_current_stat(stat, level, stat.nature);
-    return stat;
+}
+
+void Pokemon::initNatures(string nature, Stat &hp, Stat &att, Stat &def, Stat &spec_attack, Stat &spec_def, Stat &speed)
+{
+    hp.nature = 1.0;
+    att.nature = 1.0;
+    def.nature = 1.0;
+    spec_attack.nature = 1.0;
+    spec_def.nature = 1.0;
+    speed.nature = 1.0;
+
+    if (nature == "adamant")
+    {
+        att = setNatureStat(att, true);
+        spec_attack = setNatureStat(spec_attack, false);
+        //att spec att
+    }
+    else if (nature == "bold")
+    {
+        def = setNatureStat(def, true);
+        att = setNatureStat(att, false);
+        //def att
+    }
+    else if (nature == "Brave")
+    {
+        //att speed
+        att = setNatureStat(att, true);
+        speed = setNatureStat(speed, false);
+    }
+    else if (nature == "calm")
+    {
+        spec_def = setNatureStat(spec_def, true);
+        att = setNatureStat(att, false);
+    }
+    else if (nature == "careful")
+    {
+        spec_def = setNatureStat(spec_def, true);
+        spec_attack = setNatureStat(spec_attack, false);
+    }
+    else if (nature == "gentle")
+    {
+        spec_def = setNatureStat(spec_def, true);
+        def = setNatureStat(def, false);
+    }
+    else if (nature == "hasty")
+    {
+        speed = setNatureStat(speed, true);
+        def = setNatureStat(def, false);
+    }
+    else if (nature == "impish")
+    {
+        def = setNatureStat(def, true);
+        spec_attack = setNatureStat(spec_attack, false);
+    }
+    else if (nature == "jolly")
+    {
+        speed = setNatureStat(speed, true);
+        spec_attack = setNatureStat(spec_attack, false);
+    }
+    else if (nature == "lax")
+    {
+
+        def = setNatureStat(def, true);
+        spec_def = setNatureStat(spec_def, false);
+    }
+    else if (nature == "lonely")
+    {
+        att = setNatureStat(att, true);
+        def = setNatureStat(def, false);
+    }
+    else if (nature == "mild")
+    {
+        spec_attack = setNatureStat(spec_attack, true);
+        def = setNatureStat(def, false);
+    }
+    else if (nature == "modest")
+    {
+        spec_attack = setNatureStat(spec_attack, true);
+        att = setNatureStat(att, false);
+    }
+    else if (nature == "naive")
+    {
+        speed = setNatureStat(speed, true);
+        spec_def = setNatureStat(spec_def, false);
+    }
+    else if (nature == "naughty")
+    {
+        att = setNatureStat(att, true);
+        spec_def = setNatureStat(spec_def, false);
+    }
+    else if (nature == "quiet")
+    {
+        spec_attack = setNatureStat(spec_attack, true);
+        speed = setNatureStat(speed, false);
+    }
+    else if (nature == "rash")
+    {
+        spec_attack = setNatureStat(spec_attack, true);
+        spec_def = setNatureStat(spec_def, false);
+    }
+    else if (nature == "relaxed")
+    {
+        def = setNatureStat(def, true);
+        speed = setNatureStat(speed, false);
+    }
+    else if (nature == "sassy")
+    {
+        spec_def = setNatureStat(spec_def, true);
+        speed = setNatureStat(speed, false);
+    }
+    else if (nature == "timid")
+    {
+        speed = setNatureStat(speed, true);
+        att = setNatureStat(att, false);
+    }
 }
 
 Stat Pokemon::calc_IV_min_and_Max(Stat stat, int level, float nature)
@@ -204,5 +221,5 @@ Stat Pokemon::setNatureStat(Stat stat, bool increase)
     {
         stat.nature = 0.9;
     }
-    return stat; 
+    return stat;
 }
