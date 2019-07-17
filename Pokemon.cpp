@@ -8,18 +8,20 @@ Pokemon::Pokemon()
 {
     this->name = "";
     this->nature = "adamant";
-    initNatures("adamant", this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    init_natures("adamant", this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
     init_stat_from_base(this->hp, 0, 1);
     init_stat_from_base(this->att, 0, 1);
     init_stat_from_base(this->def, 0, 1);
     init_stat_from_base(this->spec_attack, 0, 1);
     init_stat_from_base(this->spec_def, 0, 1);
     init_stat_from_base(this->speed, 0, 1);
+
 }
 
-Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_def, Stat speed, string newNature)
+Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_def, Stat speed, string newNature, int level)
 {
-    initNatures(newNature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    init_natures(newNature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    this->currentLevel = level;
     this->nature = newNature;
     this->name = name;
     this->hp = hp;
@@ -34,13 +36,21 @@ Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Sta
 Pokemon::Pokemon(string name, int hp, int att, int def, int satt, int sdef, int speed, string newNature, int level)
 {
     this->nature = newNature;
-    initNatures(newNature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
-    init_stat_from_base(this->hp, hp, level);
+    this->currentLevel = level;
+    init_natures(newNature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    init_hp_from_base(this->hp, hp, level);
     init_stat_from_base(this->att, att, level);
     init_stat_from_base(this->def, def, level);
     init_stat_from_base(this->spec_attack, satt, level);
     init_stat_from_base(this->spec_def, sdef, level);
     init_stat_from_base(this->speed, speed, level);
+
+    calc_hp_IV_min_and_Max(this->hp, level);
+    calc_IV_min_and_Max(this->att, level, this->att.nature);
+    calc_IV_min_and_Max(this->def, level, this->def.nature);
+    calc_IV_min_and_Max(this->spec_attack, level, this->spec_attack.nature);
+    calc_IV_min_and_Max(this->spec_def, level, this->spec_def.nature);
+    calc_IV_min_and_Max(this->speed, level, this->speed.nature);
 
     this->name = name;
 }
@@ -53,7 +63,16 @@ void Pokemon::init_stat_from_base(Stat &stat, int base, int level)
     stat.current = calc_current_stat(stat, level, stat.nature);
 }
 
-void Pokemon::initNatures(string nature, Stat &hp, Stat &att, Stat &def, Stat &spec_attack, Stat &spec_def, Stat &speed)
+void Pokemon::init_hp_from_base(Stat &stat, int base, int level)
+{
+    stat.base = base;
+    stat.bottomIV = 0;
+    stat.EV = 0;
+    stat.topIV = 0;
+    stat.current = calc_current_hp(stat, level);
+}
+
+void Pokemon::init_natures(string nature, Stat &hp, Stat &att, Stat &def, Stat &spec_attack, Stat &spec_def, Stat &speed)
 {
     hp.nature = 1.0;
     att.nature = 1.0;
@@ -64,157 +83,161 @@ void Pokemon::initNatures(string nature, Stat &hp, Stat &att, Stat &def, Stat &s
 
     if (nature == "adamant")
     {
-        att = setNatureStat(att, true);
-        spec_attack = setNatureStat(spec_attack, false);
+        att = set_nature_stat(att, true);
+        spec_attack = set_nature_stat(spec_attack, false);
         //att spec att
     }
     else if (nature == "bold")
     {
-        def = setNatureStat(def, true);
-        att = setNatureStat(att, false);
+        def = set_nature_stat(def, true);
+        att = set_nature_stat(att, false);
         //def att
     }
     else if (nature == "Brave")
     {
         //att speed
-        att = setNatureStat(att, true);
-        speed = setNatureStat(speed, false);
+        att = set_nature_stat(att, true);
+        speed = set_nature_stat(speed, false);
     }
     else if (nature == "calm")
     {
-        spec_def = setNatureStat(spec_def, true);
-        att = setNatureStat(att, false);
+        spec_def = set_nature_stat(spec_def, true);
+        att = set_nature_stat(att, false);
     }
     else if (nature == "careful")
     {
-        spec_def = setNatureStat(spec_def, true);
-        spec_attack = setNatureStat(spec_attack, false);
+        spec_def = set_nature_stat(spec_def, true);
+        spec_attack = set_nature_stat(spec_attack, false);
     }
     else if (nature == "gentle")
     {
-        spec_def = setNatureStat(spec_def, true);
-        def = setNatureStat(def, false);
+        spec_def = set_nature_stat(spec_def, true);
+        def = set_nature_stat(def, false);
     }
     else if (nature == "hasty")
     {
-        speed = setNatureStat(speed, true);
-        def = setNatureStat(def, false);
+        speed = set_nature_stat(speed, true);
+        def = set_nature_stat(def, false);
     }
     else if (nature == "impish")
     {
-        def = setNatureStat(def, true);
-        spec_attack = setNatureStat(spec_attack, false);
+        def = set_nature_stat(def, true);
+        spec_attack = set_nature_stat(spec_attack, false);
     }
     else if (nature == "jolly")
     {
-        speed = setNatureStat(speed, true);
-        spec_attack = setNatureStat(spec_attack, false);
+        speed = set_nature_stat(speed, true);
+        spec_attack = set_nature_stat(spec_attack, false);
     }
     else if (nature == "lax")
     {
 
-        def = setNatureStat(def, true);
-        spec_def = setNatureStat(spec_def, false);
+        def = set_nature_stat(def, true);
+        spec_def = set_nature_stat(spec_def, false);
     }
     else if (nature == "lonely")
     {
-        att = setNatureStat(att, true);
-        def = setNatureStat(def, false);
+        att = set_nature_stat(att, true);
+        def = set_nature_stat(def, false);
     }
     else if (nature == "mild")
     {
-        spec_attack = setNatureStat(spec_attack, true);
-        def = setNatureStat(def, false);
+        spec_attack = set_nature_stat(spec_attack, true);
+        def = set_nature_stat(def, false);
     }
     else if (nature == "modest")
     {
-        spec_attack = setNatureStat(spec_attack, true);
-        att = setNatureStat(att, false);
+        spec_attack = set_nature_stat(spec_attack, true);
+        att = set_nature_stat(att, false);
     }
     else if (nature == "naive")
     {
-        speed = setNatureStat(speed, true);
-        spec_def = setNatureStat(spec_def, false);
+        speed = set_nature_stat(speed, true);
+        spec_def = set_nature_stat(spec_def, false);
     }
     else if (nature == "naughty")
     {
-        att = setNatureStat(att, true);
-        spec_def = setNatureStat(spec_def, false);
+        att = set_nature_stat(att, true);
+        spec_def = set_nature_stat(spec_def, false);
     }
     else if (nature == "quiet")
     {
-        spec_attack = setNatureStat(spec_attack, true);
-        speed = setNatureStat(speed, false);
+        spec_attack = set_nature_stat(spec_attack, true);
+        speed = set_nature_stat(speed, false);
     }
     else if (nature == "rash")
     {
-        spec_attack = setNatureStat(spec_attack, true);
-        spec_def = setNatureStat(spec_def, false);
+        spec_attack = set_nature_stat(spec_attack, true);
+        spec_def = set_nature_stat(spec_def, false);
     }
     else if (nature == "relaxed")
     {
-        def = setNatureStat(def, true);
-        speed = setNatureStat(speed, false);
+        def = set_nature_stat(def, true);
+        speed = set_nature_stat(speed, false);
     }
     else if (nature == "sassy")
     {
-        spec_def = setNatureStat(spec_def, true);
-        speed = setNatureStat(speed, false);
+        spec_def = set_nature_stat(spec_def, true);
+        speed = set_nature_stat(speed, false);
     }
     else if (nature == "timid")
     {
-        speed = setNatureStat(speed, true);
-        att = setNatureStat(att, false);
+        speed = set_nature_stat(speed, true);
+        att = set_nature_stat(att, false);
     }
 }
 
-Stat Pokemon::calc_IV_min_and_Max(Stat stat, int level, float nature)
+void Pokemon::calc_IV_min_and_Max(Stat &stat, int level, float nature)
 {
-    Stat returnStat = stat;
     for (int i = 0; i < 32; i++)
     {
-        if ((int)floor((((((2 * stat.base) + i + (stat.EV / 4) * level) / 100)) + 5) * nature) == stat.current)
+        if ((int)floor(((((i + (2 * stat.base) + (stat.EV / 4)) * level) / 100) + 5) * nature) == stat.current)
         {
-            returnStat.bottomIV = i;
+            stat.bottomIV = i;
             break;
         }
     }
     for (int i = 31; i >= 0; i--)
     {
-        if ((int)floor((((((2 * stat.base) + i + (stat.EV / 4) * level) / 100)) + 5) * nature) == stat.current)
+        if ((int)floor(((((i + (2 * stat.base) + (stat.EV / 4)) * level) / 100) + 5) * nature) == stat.current)
         {
-            returnStat.topIV = i;
+            stat.topIV = i;
             break;
         }
     }
-    return returnStat;
+}
+void Pokemon::calc_hp_IV_min_and_Max(Stat &stat, int level)
+{
+    for (int i = 0; i < 32; i++)
+    {
+        if ((((i + (2 * hp.base) + (hp.EV / 4)) * level) / 100) + 10 + level == stat.current)
+        {
+            stat.bottomIV = i;
+            break;
+        }
+    }
+    for (int i = 31; i >= 0; i--)
+    {
+        if ((((i + (2 * hp.base) + (hp.EV / 4)) * level) / 100) + 10 + level == stat.current)
+        {
+            stat.topIV = i;
+            break;
+        }
+    }
 }
 int Pokemon::calc_current_stat(Stat stat, int level, float nature)
 {
-    return (int)floor((((((2 * stat.base) + ((stat.bottomIV + stat.topIV) / 2) + (stat.EV / 4) * level) / 100)) + 5) * nature);
+    int ivAverage = (stat.bottomIV + stat.topIV) / 2;
+    int temp = (int)floor(((((ivAverage + (2 * stat.base) + (stat.EV / 4)) * level) / 100) + 5) * nature);
+    return temp;
 }
-Stat Pokemon::calc_hp_min_and_Max(Stat hp, int level)
+int Pokemon::calc_current_hp(Stat hp, int level)
 {
-    Stat returnStat = hp;
-    for (int i = 0; i < 32; i++)
-    {
-        if ((((((2 * hp.base) + i + (hp.EV / 4) * level) / 100)) + level + 10) == hp.current)
-        {
-            returnStat.bottomIV = i;
-            break;
-        }
-    }
-    for (int i = 31; i >= 0; i--)
-    {
-        if ((((((2 * hp.base) + i + (hp.EV / 4) * level) / 100)) + level + 10) == hp.current)
-        {
-            returnStat.topIV = i;
-            break;
-        }
-    }
-    return returnStat;
+    int ivAverage = (hp.bottomIV + hp.topIV) / 2;
+    int temp = (((ivAverage + (2 * hp.base) + (hp.EV / 4)) * level) / 100) + 10 + level;
+    return temp;
 }
-Stat Pokemon::setNatureStat(Stat stat, bool increase)
+Stat Pokemon::set_nature_stat(Stat stat, bool increase)
 {
     if (increase)
     {
