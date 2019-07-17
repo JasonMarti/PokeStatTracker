@@ -528,6 +528,7 @@
             <property name="row_spacing">5</property>
             <property name="column_spacing">5</property>
             <property name="row_homogeneous">True</property>
+            <property name="column_homogeneous">True</property>
             <child>
               <object class="GtkLabel" id="name">
                 <property name="visible">True</property>
@@ -754,39 +755,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="hp_ev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">hp_ev</property>
-              </object>
-              <packing>
-                <property name="left_attach">5</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="att_ev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">att_ev</property>
-              </object>
-              <packing>
-                <property name="left_attach">5</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="def_ev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">def_ev</property>
-              </object>
-              <packing>
-                <property name="left_attach">5</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="spec_att_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -848,17 +816,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="spec_att_ev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">spec_att_ev</property>
-              </object>
-              <packing>
-                <property name="left_attach">5</property>
-                <property name="top_attach">4</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="spec_def_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -916,17 +873,6 @@
               </object>
               <packing>
                 <property name="left_attach">4</property>
-                <property name="top_attach">5</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="spec_def_ev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">spec_def_ev</property>
-              </object>
-              <packing>
-                <property name="left_attach">5</property>
                 <property name="top_attach">5</property>
               </packing>
             </child>
@@ -1013,129 +959,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="speed_ev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">speed_ev</property>
-              </object>
-              <packing>
-                <property name="left_attach">5</property>
-                <property name="top_attach">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="speed_ev_entry">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="width_chars">3</property>
-                <property name="max_width_chars">3</property>
-                <property name="text" translatable="yes">1</property>
-                <property name="input_purpose">digits</property>
-                <property name="adjustment">speed_adjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">6</property>
-                <property name="top_attach">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="total_ev">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">total_ev</property>
-              </object>
-              <packing>
-                <property name="left_attach">5</property>
-                <property name="top_attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spec_def_ev_entry">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="width_chars">3</property>
-                <property name="max_width_chars">3</property>
-                <property name="text" translatable="yes">1</property>
-                <property name="input_purpose">digits</property>
-                <property name="adjustment">spec_def_adjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">6</property>
-                <property name="top_attach">5</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spec_att_ev_entry">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="width_chars">3</property>
-                <property name="max_width_chars">3</property>
-                <property name="text" translatable="yes">1</property>
-                <property name="input_purpose">digits</property>
-                <property name="adjustment">spec_att_adjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">6</property>
-                <property name="top_attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="def_ev_entry">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="width_chars">3</property>
-                <property name="max_width_chars">3</property>
-                <property name="text" translatable="yes">1</property>
-                <property name="input_purpose">digits</property>
-                <property name="adjustment">def_adjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">6</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="att_ev_entry">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="width_chars">3</property>
-                <property name="max_width_chars">3</property>
-                <property name="text" translatable="yes">1</property>
-                <property name="input_purpose">digits</property>
-                <property name="adjustment">att_adjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">6</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="hp_ev_entry">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="width_chars">3</property>
-                <property name="max_width_chars">3</property>
-                <property name="input_purpose">digits</property>
-                <property name="adjustment">hp_adjustment</property>
-                <property name="climb_rate">1</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">6</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="base_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -1164,7 +987,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="ev_title">
+              <object class="GtkLabel" id="ev_entry_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">current EVs</property>
@@ -1178,17 +1001,104 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="ev_entry_title">
+              <object class="GtkSpinButton" id="hp_ev_entry">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">New EVs</property>
-                <attributes>
-                  <attribute name="underline" value="True"/>
-                </attributes>
+                <property name="can_focus">True</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="input_purpose">digits</property>
+                <property name="adjustment">hp_adjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
               </object>
               <packing>
-                <property name="left_attach">6</property>
-                <property name="top_attach">0</property>
+                <property name="left_attach">5</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="att_ev_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="text" translatable="yes">1</property>
+                <property name="input_purpose">digits</property>
+                <property name="adjustment">att_adjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="def_ev_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="text" translatable="yes">1</property>
+                <property name="input_purpose">digits</property>
+                <property name="adjustment">def_adjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spec_att_ev_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="text" translatable="yes">1</property>
+                <property name="input_purpose">digits</property>
+                <property name="adjustment">spec_att_adjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spec_def_ev_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="text" translatable="yes">1</property>
+                <property name="input_purpose">digits</property>
+                <property name="adjustment">spec_def_adjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="speed_ev_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="width_chars">3</property>
+                <property name="max_width_chars">3</property>
+                <property name="text" translatable="yes">1</property>
+                <property name="input_purpose">digits</property>
+                <property name="adjustment">speed_adjustment</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="top_attach">6</property>
               </packing>
             </child>
             <child>

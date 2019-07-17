@@ -20,6 +20,7 @@ Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_de
 //new
 Pokemon(string name, int hp_base, int att_base, int def_base, int spec_att_base, int spec_def_base, int speed_base, string nature, int level);
     string name;
+    string nature;
     Stat hp;
     Stat att;
     Stat def;

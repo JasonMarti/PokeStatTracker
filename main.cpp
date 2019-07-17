@@ -14,6 +14,33 @@ void updateDisplay(gpointer ptr)
     GtkBuilder *builder = (GtkBuilder *)ptr;
     GtkWidget *comboBoxText = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
     Pokemon tempPoke = pokemans.at(gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBoxText)));
+
+    //set name
+    GtkWidget *singleWorker = (GtkWidget *)gtk_builder_get_object(builder, "name");
+    gtk_label_set_text(GTK_LABEL(singleWorker), tempPoke.name.c_str());
+    singleWorker = (GtkWidget *)gtk_builder_get_object(builder, "nature_stat");
+    gtk_label_set_text(GTK_LABEL(singleWorker), tempPoke.nature.c_str());
+    //get and set current stats
+    GtkWidget *hpWorker = (GtkWidget *)gtk_builder_get_object(builder, "hp_stat");
+    gtk_label_set_text(GTK_LABEL(hpWorker), to_string(tempPoke.hp.base).c_str());
+    GtkWidget *attWorker = (GtkWidget *)gtk_builder_get_object(builder, "att_stat");
+    gtk_label_set_text(GTK_LABEL(attWorker), to_string(tempPoke.att.base).c_str());
+    GtkWidget *defWorker = (GtkWidget *)gtk_builder_get_object(builder, "def_stat");
+    gtk_label_set_text(GTK_LABEL(defWorker), to_string(tempPoke.def.base).c_str());
+    GtkWidget *specAttWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_att_stat");
+    gtk_label_set_text(GTK_LABEL(specAttWorker), to_string(tempPoke.spec_attack.base).c_str());
+    GtkWidget *specDefWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_def_stat");
+    gtk_label_set_text(GTK_LABEL(specDefWorker), to_string(tempPoke.spec_def.base).c_str());
+    GtkWidget *speedWorker = (GtkWidget *)gtk_builder_get_object(builder, "speed_stat");
+    gtk_label_set_text(GTK_LABEL(speedWorker), to_string(tempPoke.speed.base).c_str());
+
+    //get base stats labels
+
+    //get and set current stat entry boxes
+
+    //get and set iv ranges
+
+    //get and set current evs
 }
 
 //main window button handlers

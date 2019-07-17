@@ -7,6 +7,7 @@ using namespace std;
 Pokemon::Pokemon()
 {
     this->name = "";
+    this->nature = "adamant";
     initNatures("adamant", this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
     init_stat_from_base(this->hp, 0, 1);
     init_stat_from_base(this->att, 0, 1);
@@ -16,9 +17,10 @@ Pokemon::Pokemon()
     init_stat_from_base(this->speed, 0, 1);
 }
 
-Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_def, Stat speed, string nature)
+Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_def, Stat speed, string newNature)
 {
-    initNatures(nature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    initNatures(newNature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    this->nature = newNature;
     this->name = name;
     this->hp = hp;
     this->att = att;
@@ -29,9 +31,10 @@ Pokemon::Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Sta
 }
 
 //assumsIVs are 0
-Pokemon::Pokemon(string name, int hp, int att, int def, int satt, int sdef, int speed, string nature, int level)
+Pokemon::Pokemon(string name, int hp, int att, int def, int satt, int sdef, int speed, string newNature, int level)
 {
-    initNatures(nature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
+    this->nature = newNature;
+    initNatures(newNature, this->hp, this->att, this->def, this->spec_attack, this->spec_def, this->speed);
     init_stat_from_base(this->hp, hp, level);
     init_stat_from_base(this->att, att, level);
     init_stat_from_base(this->def, def, level);
