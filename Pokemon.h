@@ -16,7 +16,7 @@ class Pokemon
 public:
     Pokemon();
     //load
-    Pokemon(string name, Stat hp, Stat att, Stat def, Stat spec_attack, Stat spec_def, Stat speed, string nature, int level);
+    Pokemon(string csv);
     //new
     Pokemon(string name, int hp_base, int att_base, int def_base, int spec_att_base, int spec_def_base, int speed_base, string nature, int level);
     string name;
@@ -32,6 +32,7 @@ public:
     void update_IVs(); //TODO
 
 private:
+    void blank_init();
     void init_stat_from_base(Stat &stat, int base, int level);
     int calc_current_stat(Stat stat, int level, float nature);
     int calc_current_hp(Stat hp, int level);
@@ -42,4 +43,6 @@ private:
     void recalculate_IV_range(Stat &stat, int level, bool isHp); 
     Stat set_nature_stat(Stat stat, bool increase);
     void init_natures(string nature, Stat &hp, Stat &att, Stat &def, Stat &spec_attack, Stat &spec_def, Stat &speed);
+    void init_stat_from_string(Stat &stat, string csv);
+    void init_header_from_string(string csv);
 };
