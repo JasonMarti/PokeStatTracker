@@ -1,4 +1,5 @@
 #include <string>
+#include <map>
 using namespace std;
 
 struct Stat
@@ -11,9 +12,18 @@ struct Stat
     float nature;
 };
 
+struct Move
+{
+  string name;
+  int power;
+  int type;
+  bool stab;
+};
+
 class Pokemon
 {
 public:
+    
     Pokemon();
     //load
     Pokemon(string csv);
@@ -28,6 +38,10 @@ public:
     Stat spec_attack;
     Stat spec_def;
     Stat speed;
+    Move move1;
+    Move move2;
+    Move move3;
+    Move move4;
     void recalculate_stats(); //TODO
     void update_IVs(); //TODO
 
@@ -45,4 +59,6 @@ private:
     void init_natures(string nature, Stat &hp, Stat &att, Stat &def, Stat &spec_attack, Stat &spec_def, Stat &speed);
     void init_stat_from_string(Stat &stat, string csv);
     void init_header_from_string(string csv);
+    void set_move(Move &move, string name, int power, int type, bool stab);
+    void init_move_from_string(Move &move, string csv);
 };
