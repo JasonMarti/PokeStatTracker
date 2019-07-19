@@ -8,9 +8,77 @@
 using namespace std;
 map<string, Pokemon> pokemans;
 
-// misc functions
+//*************************
+// helper and misc handlers
+//*************************
+
 void end_program(GtkWidget *wid, gpointer ptr) { gtk_main_quit(); }
-void collect_and_update_entry_stats(gpointer ptr);
+
+void collect_and_update_entry_stats(gpointer ptr) {
+
+    GtkBuilder *builder = (GtkBuilder *)ptr;
+    GtkWidget *comboBox = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
+
+    Pokemon poke = pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))];
+
+    GtkWidget *statWorker = (GtkWidget *)gtk_builder_get_object(builder, "hp_stat_entry");
+    poke.hp.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
+    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "att_stat_entry");
+    poke.att.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
+    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "def_stat_entry");
+    poke.def.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
+    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_att_stat_entry");
+    poke.spec_attack.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
+    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_def_stat_entry");
+    poke.spec_def.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
+    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "speed_stat_entry");
+    poke.speed.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
+
+    pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))] = poke;
+}
+int calculate_move_damage(gpointer ptr, int moveIndex) {
+    int power = 0;
+    int defense = 50;
+    bool special = false;
+    float damageMod = 0.0;
+
+    GtkBuilder *builder = (GtkBuilder *)ptr;
+    GtkWidget *worker = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
+    Pokemon poke = pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(worker))];
+    // get pokemon move power
+    switch (moveIndex) {
+    case 1:
+        power = poke.move1.power;
+        special = poke.move1.type;
+        break;
+    case 2:
+        power = poke.move2.power;
+        special = poke.move2.type;
+        break;
+    case 3:
+        power = poke.move3.power;
+        special = poke.move3.type;
+        break;
+    case 4:
+        power = poke.move4.power;
+        special = poke.move4.type;
+        break;
+    };
+
+    // get defense based on move type, if 0 do 50 for default
+    if (special) {
+        worker = (GtkWidget *)gtk_builder_get_object(builder, "opponent_spec_def_entry");
+        defense = atoi(gtk_entry_get_text(GTK_ENTRY(worker)));
+
+    } else {
+        worker = (GtkWidget *)gtk_builder_get_object(builder, "opponent_def_entry");
+        defense = atoi(gtk_entry_get_text(GTK_ENTRY(worker)));
+    }
+
+    // plug in damage to formula
+    // return value
+}
+
 void updateDisplay(gpointer ptr) {
     GtkBuilder *builder = (GtkBuilder *)ptr;
     GtkWidget *comboBoxText = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
@@ -136,31 +204,46 @@ void updateDisplay(gpointer ptr) {
     gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.move4.power).c_str());
 }
 
+//****************************
 // main window button handlers
+//****************************
+
 void update_button_handler(GtkWidget *wid, gpointer ptr) {
-    // INPROGRESS
+    // get builder and current pokemon object
     GtkBuilder *builder = (GtkBuilder *)ptr;
     GtkWidget *comboBox = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
     Pokemon poke = pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))];
+
+    // recalculate stats with current IVs save it and update
     poke.recalculate_stats();
     pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))] = poke;
     updateDisplay(ptr);
 }
+
 void update_iv_button_handler(GtkWidget *wid, gpointer ptr) {
+    // get builder and current pokemon object
     GtkBuilder *builder = (GtkBuilder *)ptr;
     GtkWidget *comboBox = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
     Pokemon poke = pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))];
-    // pull stat entry box
+
+    // pull stat changes if any from entry box
     collect_and_update_entry_stats(ptr);
     poke.update_IVs();
     pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))] = poke;
     updateDisplay(ptr);
 }
+
 void level_change_handler(GtkWidget *wid, gpointer ptr) {
+    // get builder and current pokemon object
     GtkBuilder *builder = (GtkBuilder *)ptr;
     GtkWidget *worker = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
-    Pokemon currentProfile = pokemans.at(gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(worker)));
-    // TODO
+    Pokemon currentProfile = pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(worker))];
+    // get current level recalculate stats
+    worker = (GtkWidget *)gtk_builder_get_object(builder, "current_level");
+    currentProfile.currentLevel = gtk_spin_button_get_value(GTK_SPIN_BUTTON(worker));
+    currentProfile.recalculate_stats();
+    pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(worker))] = currentProfile;
+    updateDisplay(ptr);
 }
 void new_pokemon_window_handler(GtkWidget *wid, gpointer ptr) {
     GtkBuilder *builder = (GtkBuilder *)ptr;
@@ -223,7 +306,10 @@ void save_button_handler(GtkWidget *wid, gpointer ptr) {
     // TODO
 }
 
-// new pokemon window button handlers
+//****************************
+// new Pokemon Window handlers
+//****************************
+
 void new_pokemon_ok_handler(GtkWidget *wid, gpointer ptr) {
     GtkBuilder *builder = (GtkBuilder *)ptr;
     string baseName;
@@ -308,7 +394,10 @@ void new_pokemon_no_handler(GtkWidget *wid, gpointer ptr) {
     GtkWidget *newWin = (GtkWidget *)gtk_builder_get_object(builder, "new_pokemon");
     gtk_widget_hide(newWin);
 }
-// new move button
+
+//****************************
+// New Move handlers
+//****************************
 
 void new_move_ok_handler(GtkWidget *wid, gpointer ptr) {
     GtkBuilder *builder = (GtkBuilder *)ptr;
@@ -365,28 +454,6 @@ void new_move_no_handler(GtkWidget *wid, gpointer ptr) {
     GtkBuilder *builder = (GtkBuilder *)ptr;
     GtkWidget *newWin = (GtkWidget *)gtk_builder_get_object(builder, "new_move");
     gtk_widget_hide(newWin);
-}
-void collect_and_update_entry_stats(gpointer ptr) {
-
-    GtkBuilder *builder = (GtkBuilder *)ptr;
-    GtkWidget *comboBox = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
-
-    Pokemon poke = pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))];
-
-    GtkWidget *statWorker = (GtkWidget *)gtk_builder_get_object(builder, "hp_stat_entry");
-    poke.hp.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
-    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "att_stat_entry");
-    poke.att.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
-    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "def_stat_entry");
-    poke.def.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
-    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_att_stat_entry");
-    poke.spec_attack.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
-    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_def_stat_entry");
-    poke.spec_def.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
-    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "speed_stat_entry");
-    poke.speed.current = gtk_spin_button_get_value(GTK_SPIN_BUTTON(statWorker));
-
-    pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))] = poke;
 }
 
 int main(int argc, char *argv[]) {

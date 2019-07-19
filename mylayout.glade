@@ -476,6 +476,7 @@
                 <property name="input_purpose">digits</property>
                 <property name="adjustment">current_level_adjustment</property>
                 <property name="numeric">True</property>
+                <property name="update_policy">if-valid</property>
                 <property name="value">1</property>
               </object>
               <packing>
@@ -1054,6 +1055,7 @@
                 <property name="adjustment">hp_adjustment</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
+                <property name="update_policy">if-valid</property>
               </object>
               <packing>
                 <property name="left_attach">5</property>
@@ -1071,6 +1073,7 @@
                 <property name="adjustment">att_adjustment</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
+                <property name="update_policy">if-valid</property>
               </object>
               <packing>
                 <property name="left_attach">5</property>
@@ -1088,6 +1091,7 @@
                 <property name="adjustment">def_adjustment</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
+                <property name="update_policy">if-valid</property>
               </object>
               <packing>
                 <property name="left_attach">5</property>
@@ -1105,6 +1109,7 @@
                 <property name="adjustment">spec_att_adjustment</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
+                <property name="update_policy">if-valid</property>
               </object>
               <packing>
                 <property name="left_attach">5</property>
@@ -1122,6 +1127,7 @@
                 <property name="adjustment">spec_def_adjustment</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
+                <property name="update_policy">if-valid</property>
               </object>
               <packing>
                 <property name="left_attach">5</property>
@@ -1139,6 +1145,7 @@
                 <property name="adjustment">speed_adjustment</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
+                <property name="update_policy">if-valid</property>
               </object>
               <packing>
                 <property name="left_attach">5</property>
@@ -1293,7 +1300,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton">
+              <object class="GtkSpinButton" id="move_1_effectivity">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">effect_modifier_move_1</property>
@@ -1305,7 +1312,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton">
+              <object class="GtkSpinButton" id="move_2_effectivity">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="text" translatable="yes">4.00</property>
@@ -1319,7 +1326,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton">
+              <object class="GtkSpinButton" id="move_3_effectivity">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="text" translatable="yes">4.00</property>
@@ -1333,7 +1340,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton">
+              <object class="GtkSpinButton" id="move_4cmdpathpacsudir_effectivity">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="text" translatable="yes">4.00</property>
@@ -1370,7 +1377,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry">
+              <object class="GtkEntry" id="opponent_def_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
               </object>
@@ -1391,7 +1398,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry">
+              <object class="GtkEntry" id="opponent_spec_def_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
               </object>
