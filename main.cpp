@@ -277,12 +277,13 @@ void update_button_handler(GtkWidget *wid, gpointer ptr) {
 
 void update_iv_button_handler(GtkWidget *wid, gpointer ptr) {
     // get builder and current pokemon object
+    // pull stat changes if any from entry box
     GtkBuilder *builder = (GtkBuilder *)ptr;
+    collect_and_update_entry_stats(ptr);
     GtkWidget *comboBox = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
     Pokemon poke = pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))];
 
     // pull stat changes if any from entry box
-    collect_and_update_entry_stats(ptr);
     poke.update_IVs();
     pokemans[gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox))] = poke;
     updateDisplay(ptr);
