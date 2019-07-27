@@ -42,6 +42,7 @@ class Pokemon {
     void recalculate_stats(); // TODO
     void update_IVs();        // TODO
     void set_move(Move &move, string name, int power, int type, bool stab);
+    void init_natures(string nature);
 
   private:
     void blank_init();
@@ -54,7 +55,6 @@ class Pokemon {
     void recalculate_current_stat(Stat &stat, bool isHp);
     void recalculate_IV_range(Stat &stat, int level, bool isHp);
     void set_nature_stat(Stat &stat, bool increase);
-    void init_natures(string nature, Stat &hp, Stat &att, Stat &def, Stat &spec_attack, Stat &spec_def, Stat &speed);
     void init_stat_from_string(Stat &stat, string csv);
     void init_header_from_string(string csv);
     void init_move_from_string(Move &move, string csv);

@@ -14,6 +14,15 @@ map<string, Pokemon> pokemans;
 
 void end_program(GtkWidget *wid, gpointer ptr) { gtk_main_quit(); }
 
+string format_stat(Stat stat){
+    if(stat.nature > 1.001) {
+        return (to_string(stat.current) + "+");
+    } else if (stat.nature < 0.999) {
+        return (to_string(stat.current) + "-");
+    }
+    return to_string(stat.current);
+}
+
 char print_nature(float input) {
     if (input > 1.01) {
         return 'u';
@@ -132,6 +141,18 @@ float calculate_move_damage(gpointer ptr, int moveIndex) {
     // return value
 }
 
+void calculate_move_damage_runner(gpointer ptr){
+    GtkBuilder *builder = (GtkBuilder *)ptr;
+    GtkWidget *worker = (GtkWidget *)gtk_builder_get_object(builder, "move_1_damage");
+    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 1)).c_str());
+    worker = (GtkWidget *)gtk_builder_get_object(builder, "move_2_damage");
+    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 2)).c_str());
+    worker = (GtkWidget *)gtk_builder_get_object(builder, "move_3_damage");
+    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 3)).c_str());
+    worker = (GtkWidget *)gtk_builder_get_object(builder, "move_4_damage");
+    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 4)).c_str());
+}
+
 void updateDisplay(gpointer ptr) {
     GtkBuilder *builder = (GtkBuilder *)ptr;
     GtkWidget *comboBoxText = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
@@ -147,17 +168,17 @@ void updateDisplay(gpointer ptr) {
 
     // get and set current stats
     GtkWidget *statWorker = (GtkWidget *)gtk_builder_get_object(builder, "hp_stat");
-    gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.hp.current).c_str());
+    gtk_label_set_text(GTK_LABEL(statWorker), format_stat(tempPoke.hp).c_str());
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "att_stat");
-    gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.att.current).c_str());
+    gtk_label_set_text(GTK_LABEL(statWorker), format_stat(tempPoke.att).c_str());
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "def_stat");
-    gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.def.current).c_str());
+    gtk_label_set_text(GTK_LABEL(statWorker), format_stat(tempPoke.def).c_str());
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_att_stat");
-    gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.spec_attack.current).c_str());
+    gtk_label_set_text(GTK_LABEL(statWorker), format_stat(tempPoke.spec_attack).c_str());
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "spec_def_stat");
-    gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.spec_def.current).c_str());
+    gtk_label_set_text(GTK_LABEL(statWorker), format_stat(tempPoke.spec_def).c_str());
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "speed_stat");
-    gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.speed.current).c_str());
+    gtk_label_set_text(GTK_LABEL(statWorker), format_stat(tempPoke.speed).c_str());
 
     // get and set current stats entry box
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "hp_stat_entry");
@@ -236,6 +257,15 @@ void updateDisplay(gpointer ptr) {
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "speed_ev_entry");
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(statWorker), tempPoke.speed.EV);
 
+    //set total EVs
+    statWorker = (GtkWidget *)gtk_builder_get_object(builder, "total_evs");
+    gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.hp.EV+
+                                                           tempPoke.att.EV+
+                                                           tempPoke.def.EV+
+                                                           tempPoke.spec_attack.EV+
+                                                           tempPoke.spec_def.EV+
+                                                           tempPoke.speed.EV).c_str());
+
     // get and set move names
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "move_1_name");
     gtk_label_set_text(GTK_LABEL(statWorker), tempPoke.move1.name.c_str());
@@ -255,6 +285,11 @@ void updateDisplay(gpointer ptr) {
     gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.move3.power).c_str());
     statWorker = (GtkWidget *)gtk_builder_get_object(builder, "move_4_power");
     gtk_label_set_text(GTK_LABEL(statWorker), to_string(tempPoke.move4.power).c_str());
+
+    //set move damage
+    calculate_move_damage_runner(ptr);
+
+
 }
 
 //****************************
@@ -311,16 +346,8 @@ void new_move_handler(GtkWidget *wid, gpointer ptr) {
     gtk_widget_show_all(newWin);
 }
 void calculate_move_damage_handler(GtkWidget *wid, gpointer ptr) {
-    GtkBuilder *builder = (GtkBuilder *)ptr;
-    GtkWidget *worker = (GtkWidget *)gtk_builder_get_object(builder, "move_1_damage");
-    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 1)).c_str());
-    worker = (GtkWidget *)gtk_builder_get_object(builder, "move_2_damage");
-    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 2)).c_str());
-    worker = (GtkWidget *)gtk_builder_get_object(builder, "move_3_damage");
-    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 3)).c_str());
-    worker = (GtkWidget *)gtk_builder_get_object(builder, "move_4_damage");
-    gtk_label_set_text(GTK_LABEL(worker), to_string(calculate_move_damage(ptr, 4)).c_str());
-    updateDisplay(ptr);
+    calculate_move_damage_runner(ptr);
+
 }
 void profile_changed_handler(GtkWidget *wid, gpointer ptr) { updateDisplay(ptr); }
 void load_button_handler(GtkWidget *wid, gpointer ptr) {
@@ -392,6 +419,19 @@ void save_button_handler(GtkWidget *wid, gpointer ptr) {
         // clang-format on
     }
     fout.close();
+}
+
+void update_nature_button_handler (GtkWidget *wid, gpointer ptr) {
+    
+    GtkBuilder *builder = (GtkBuilder *)ptr;
+    GtkWidget *comboBox = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
+    string profile = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboBox));
+    GtkWidget *worker = (GtkWidget *)gtk_builder_get_object(builder, "new_natures_main");
+    Pokemon poke = pokemans[profile];
+    poke.init_natures(gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(worker)));
+    poke.recalculate_stats();
+    pokemans[profile] = poke;
+    updateDisplay(ptr);
 }
 
 //****************************
@@ -563,6 +603,7 @@ int main(int argc, char *argv[]) {
     GtkWidget *profilesComboBox  = (GtkWidget *)gtk_builder_get_object(builder, "profiles_combo_box");
     GtkWidget *saveButton = (GtkWidget *)gtk_builder_get_object(builder, "save_button");
     GtkWidget *loadButton = (GtkWidget *)gtk_builder_get_object(builder, "load_button");
+    GtkWidget *updateNatureButton = (GtkWidget *)gtk_builder_get_object(builder, "update_nature_button");
 
     //******************************
     //new Pokemon window and buttons
@@ -589,6 +630,7 @@ int main(int argc, char *argv[]) {
     g_signal_connect(profilesComboBox, "changed", G_CALLBACK(profile_changed_handler), builder);
     g_signal_connect(saveButton, "clicked", G_CALLBACK(save_button_handler), builder);
     g_signal_connect(loadButton, "file-set", G_CALLBACK(load_button_handler), builder);
+    g_signal_connect(updateNatureButton, "clicked", G_CALLBACK(update_nature_button_handler), builder);
 
     //new Pokemon window handler mapping
     g_signal_connect(mainWindow, "delete_event", G_CALLBACK(end_program), NULL);

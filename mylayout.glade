@@ -1177,13 +1177,65 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="total_evs">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">total evs</property>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="top_attach">7</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkComboBoxText" id="new_natures_main">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="active">0</property>
+                <items>
+                  <item id="0" translatable="yes">adamant</item>
+                  <item id="1" translatable="yes">bashful</item>
+                  <item id="2" translatable="yes">bold</item>
+                  <item id="3" translatable="yes">brave</item>
+                  <item id="4" translatable="yes">calm</item>
+                  <item id="5" translatable="yes">careful</item>
+                  <item id="6" translatable="yes">docile</item>
+                  <item id="7" translatable="yes">gentle</item>
+                  <item id="8" translatable="yes">hardy</item>
+                  <item id="9" translatable="yes">hasty</item>
+                  <item id="10" translatable="yes">impish</item>
+                  <item id="11" translatable="yes">jolly</item>
+                  <item id="12" translatable="yes">lax</item>
+                  <item id="13" translatable="yes">lonely</item>
+                  <item id="14" translatable="yes">mild</item>
+                  <item id="15" translatable="yes">modest</item>
+                  <item id="16" translatable="yes">naive</item>
+                  <item id="17" translatable="yes">naughty</item>
+                  <item id="18" translatable="yes">quiet</item>
+                  <item id="19" translatable="yes">quirky</item>
+                  <item id="20" translatable="yes">rash</item>
+                  <item id="21" translatable="yes">relaxed</item>
+                  <item id="22" translatable="yes">sassy</item>
+                  <item id="23" translatable="yes">serious</item>
+                  <item id="24" translatable="yes">timid</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="top_attach">7</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkButton" id="update_nature_button">
+                <property name="label" translatable="yes">Update Nature</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="top_attach">7</property>
+              </packing>
             </child>
             <child>
               <placeholder/>
